@@ -1,4 +1,4 @@
-@"
+
 name: Online Exam CI/CD Pipeline
 
 on:
@@ -46,4 +46,3 @@ jobs:
 
       - name: CI Pipeline Completed
         run: echo "Pipeline executed successfully"
-"@ | Set-Content ".github/workflows/main.yml"
