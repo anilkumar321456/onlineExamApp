@@ -1,0 +1,49 @@
+@"
+name: Online Exam CI/CD Pipeline
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Build Login Service
+        run: |
+          cd login-service
+          mvn clean install
+
+      - name: Build Exam Service
+        run: |
+          cd exam-service
+          mvn clean install
+
+      - name: Build Result Service
+        run: |
+          cd result-service
+          mvn clean install
+
+      - name: Build Docker Images
+        run: |
+          docker build -t login-service ./login-service
+          docker build -t exam-service ./exam-service
+          docker build -t result-service ./result-service
+
+      - name: CI Pipeline Completed
+        run: echo "Pipeline executed successfully"
+"@ | Set-Content ".github/workflows/main.yml"
